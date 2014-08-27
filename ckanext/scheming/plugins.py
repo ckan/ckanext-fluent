@@ -10,6 +10,7 @@ from ckan.logic.schema import group_form_schema, default_show_group_schema
 from paste.deploy.converters import asbool
 
 from ckanext.scheming import helpers
+from ckanext.scheming import converters
 from ckanext.scheming.errors import SchemingException
 from ckanext.scheming.validation import validators_from_string
 
@@ -30,6 +31,7 @@ class _SchemingMixin(object):
     """
     instance = None
     _helpers_loaded = False
+    _converters_loaded = False
     _template_dir_added = False
 
     @classmethod
@@ -52,6 +54,16 @@ class _SchemingMixin(object):
                 helpers.scheming_organization_schemas,
             'scheming_get_organization_schema':
                 helpers.scheming_get_organization_schema,
+            }
+
+    def get_converters(self):
+        if _SchemingMixin._converters_loaded:
+            return {}
+        _SchemingMixin._converters_loaded = True
+        return {
+            'scheming_multilingual_text': converters.scheming_multilingual_text,
+            'scheming_multilingual_text_output':
+                converters.scheming_multilingual_text_output,
             }
 
     def _add_template_directory(self, config):
@@ -118,6 +130,7 @@ class SchemingDatasetsPlugin(p.SingletonPlugin, DefaultDatasetForm,
         _SchemingMixin):
     p.implements(p.IConfigurer)
     p.implements(p.ITemplateHelpers)
+    p.implements(p.IConverters)
     p.implements(p.IDatasetForm, inherit=True)
 
     SCHEMA_OPTION = 'scheming.dataset_schemas'
@@ -181,6 +194,7 @@ class SchemingGroupsPlugin(p.SingletonPlugin, _GroupOrganizationMixin,
         DefaultGroupForm, _SchemingMixin):
     p.implements(p.IConfigurer)
     p.implements(p.ITemplateHelpers)
+    p.implements(p.IConverters)
     p.implements(p.IGroupForm, inherit=True)
 
     SCHEMA_OPTION = 'scheming.group_schemas'
@@ -198,6 +212,7 @@ class SchemingOrganizationsPlugin(p.SingletonPlugin, _GroupOrganizationMixin,
         DefaultOrganizationForm, _SchemingMixin):
     p.implements(p.IConfigurer)
     p.implements(p.ITemplateHelpers)
+    p.implements(p.IConverters)
     p.implements(p.IGroupForm, inherit=True)
 
     SCHEMA_OPTION = 'scheming.organization_schemas'

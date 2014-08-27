@@ -46,7 +46,6 @@ def scheming_multilingual_text_output(value):
     Return stored json representation as a multilingual dict, if
     value is already a dict just pass it through.
     """
-    assert 0
     if isinstance(value, dict):
         return value
     return json.loads(value)

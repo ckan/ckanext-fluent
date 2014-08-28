@@ -1,6 +1,9 @@
 import json
+import re
 
-from ckan.plugins.toolkit import missing
+from ckan.plugins.toolkit import missing, _
+
+ISO_639_LANGUAGE = u'^[a-z][a-z][a-z]?[a-z]?$'
 
 def scheming_multilingual_text(key, data, errors, context):
     """
@@ -21,11 +24,49 @@ def scheming_multilingual_text(key, data, errors, context):
        fieldname-en = "Text"
        fieldname-fr = "texte"
     """
+    # just in case there was an error before our converter,
+    # bail out here because our errors won't be useful
+    if errors[key]:
+        return
+
     value = data[key]
+    # 1 or 2. dict or JSON encoded string
     if value is not missing:
-        if isinstance(value, dict):
-            data[key] = json.dumps(value) # 1. multilingual dict
-        # FIXME: assuming it's an already-encoded dict
+        if isinstance(value, basestring):
+            try:
+                value = json.loads(value)
+            except ValueError:
+                errors[key].append(_('Failed to decode JSON string'))
+                return
+            except UnicodeDecodeError:
+                errors[key].append(_('Invalid encoding for JSON string'))
+                return
+        if not isinstance(value, dict):
+            errors[key].append(_('expecting JSON object'))
+            return
+
+        for lang, text in value.iteritems():
+            try:
+                m = re.match(ISO_639_LANGUAGE, lang)
+            except TypeError:
+                errors[key].append(_('invalid type for language code: %r')
+                    % lang)
+                continue
+            if not m:
+                errors[key].append(_('invalid language code: "%s"') % lang)
+                continue
+            if not isinstance(text, basestring):
+                errors[key].append(_('invalid type for "%s" value') % lang)
+                continue
+            if isinstance(text, str):
+                try:
+                    value[lang] = text.decode('utf-8')
+                except UnicodeDecodeError:
+                    errors[key]. append(_('invalid encoding for "%s" value')
+                        % lang)
+
+        if not errors[key]:
+            data[key] = json.dumps(value)
         return
 
     # 3. separate fields
@@ -34,8 +75,21 @@ def scheming_multilingual_text(key, data, errors, context):
     extras = data.get(('__extras',), {})
 
     for name, text in extras.iteritems():
-        if name.startswith(prefix):
-            output[name.split('-', 1)[1]] = text
+        if not name.startswith(prefix):
+            continue
+        lang = name.split('-', 1)[1]
+        m = re.match(ISO_639_LANGUAGE, lang)
+        if not m:
+            errors[name] = [_('invalid language code: "%s"') % lang)]
+            output = None
+            continue
+
+        if output is not None:
+            output[lang] = text
+
+    if output is None:
+        return
+
     for lang in output:
         del extras[prefix + lang]
     data[key] = json.dumps(output)

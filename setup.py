@@ -25,6 +25,6 @@ setup(
     entry_points=\
     """
     [ckan.plugins]
-    fluent=ckanext.fluent.plugins.FluentPlugin
+    fluent=ckanext.fluent.plugins:FluentPlugin
     """,
 )

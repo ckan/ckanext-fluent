@@ -1,0 +1,46 @@
+{
+  "scheming_version": 1,
+  "dataset_type": "fluent-test",
+  "about_url": "http://github.com/open-data/ckanext-fluent",
+  "dataset_fields": [
+    {
+      "field_name": "title",
+      "label": {
+          "en": "Title",
+          "fr": "Titre"},
+      "form_snippet": "large_text.html",
+      "validators": "if_empty_same_as(name) unicode",
+      "form_attrs": {"data-module": "slug-preview-target"},
+      "form_placeholder": "eg. Yellow Submarine"
+    },
+    {
+      "field_name": "name",
+      "label": "URL",
+      "form_snippet": "dataset_slug.html",
+      "validators": "not_empty unicode name_validator package_name_validator",
+      "form_placeholder": "eg. yellow-submarine"
+    },
+    {
+      "field_name": "description_ml",
+      "form_snippet": "multilingual_text.html",
+      "label": {
+          "en": "Description",
+          "fr": "Desc(fr)"},
+      "validators": "fluent_text",
+      "output_validators": "fluent_text_output",
+      "form_languages": ["en", "fr"]
+    }
+  ],
+  "resource_fields": [
+    {
+      "field_name": "url",
+      "label": "URL",
+      "validators": "not_empty unicode remove_whitespace",
+      "form_snippet": "upload.html",
+      "form_placeholder": "http://example.com/photo.jpg",
+      "upload_field": "upload",
+      "upload_clear": "clear_upload",
+      "upload_label": "Photo"
+    }
+  ]
+}

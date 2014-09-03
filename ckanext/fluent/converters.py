@@ -80,7 +80,7 @@ def fluent_text(key, data, errors, context):
         lang = name.split('-', 1)[1]
         m = re.match(ISO_639_LANGUAGE, lang)
         if not m:
-            errors[name] = [_('invalid language code: "%s"') % lang)]
+            errors[name] = [_('invalid language code: "%s"') % lang]
             output = None
             continue
 

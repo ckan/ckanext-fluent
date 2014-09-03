@@ -14,7 +14,7 @@ class FluentPlugin(p.SingletonPlugin):
         We have some form snippets that support ckanext-scheming
         """
         add_template_directory(config, 'templates')
-    
+
     def get_converters(self):
         return {
             'fluent_text': converters.fluent_text,

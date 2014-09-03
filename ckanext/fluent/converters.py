@@ -5,7 +5,7 @@ from ckan.plugins.toolkit import missing, _
 
 ISO_639_LANGUAGE = u'^[a-z][a-z][a-z]?[a-z]?$'
 
-def scheming_multilingual_text(key, data, errors, context):
+def fluent_text(key, data, errors, context):
     """
     Accept multilingual text input in the following forms
     and convert to a json string for storage:
@@ -95,7 +95,7 @@ def scheming_multilingual_text(key, data, errors, context):
     data[key] = json.dumps(output)
 
 
-def scheming_multilingual_text_output(value):
+def fluent_text_output(value):
     """
     Return stored json representation as a multilingual dict, if
     value is already a dict just pass it through.

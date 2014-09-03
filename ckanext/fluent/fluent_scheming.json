@@ -22,7 +22,8 @@
     },
     {
       "field_name": "description_ml",
-      "form_snippet": "multilingual_text.html",
+      "form_snippet": "fluent_text.html",
+      "display_snippet": "fluent_text.html",
       "label": {
           "en": "Description",
           "fr": "Desc(fr)"},

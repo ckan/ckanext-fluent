@@ -71,8 +71,8 @@ def fluent_text(key, data, errors, context):
 
     # 3. separate fields
     output = {}
-    prefix = key[0] + '-'
-    extras = data.get(('__extras',), {})
+    prefix = key[-1] + '-'
+    extras = data.get(key[:-1] + ('__extras',), {})
 
     for name, text in extras.iteritems():
         if not name.startswith(prefix):

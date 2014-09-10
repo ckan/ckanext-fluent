@@ -33,16 +33,13 @@ This new extra field "books" will appear as multiple fields in the
 dataset form, one for each language specified in `form_languages`
 by the [form snippet](ckanext/fluent/templates/scheming/form_snippets/fluent_text.html).
 
+![Example of fluent form snippet](docs/multilingual-form.png)
+
 When displayed, each language with text entered will appear separately
 by the
 [display snippet](ckanext/fluent/templates/scheming/display_snippets/fluent_text.html), eg.:
 
-<dl>
-  <dt>en</dt>
-  <dd>Franklin</dd>
-  <dt>fr</dt>
-  <dd>Benjamin</dd>
-</dl>
+![Example of fluent display snippet](docs/multilingual-display.png)
 
 When the dataset is accessed from the API the language values appear
 and are updated as an object, eg.:

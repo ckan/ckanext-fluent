@@ -24,7 +24,7 @@ def fluent_text(key, data, errors, context):
        fieldname-en = "Text"
        fieldname-fr = "texte"
     """
-    # just in case there was an error before our converter,
+    # just in case there was an error before our validator,
     # bail out here because our errors won't be useful
     if errors[key]:
         return

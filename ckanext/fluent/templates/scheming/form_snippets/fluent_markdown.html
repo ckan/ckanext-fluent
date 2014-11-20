@@ -1,0 +1,14 @@
+{% import 'macros/form.html' as form %}
+
+{%- for lang in field.form_languages -%}
+  {{ form.markdown(
+    field.field_name + '-' + lang,
+    id='field-' + field.field_name + '-' + lang,
+    label=lang.upper() + ' ' + h.scheming_language_text(field.label),
+    placeholder=h.scheming_language_text(field.form_placeholder),
+    value=data.get(field.field_name, {})[lang],
+    error=errors[field.field_name],
+    attrs=field.form_attrs or {},
+    is_required=h.scheming_field_required(field)
+    ) }}
+{%- endfor -%}

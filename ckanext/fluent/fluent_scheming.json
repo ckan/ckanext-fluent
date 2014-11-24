@@ -16,7 +16,7 @@
     {
       "field_name": "name",
       "label": "URL",
-      "form_snippet": "dataset_slug.html",
+      "form_snippet": "slug.html",
       "validators": "not_empty unicode name_validator package_name_validator",
       "form_placeholder": "eg. yellow-submarine"
     },

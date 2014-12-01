@@ -11,20 +11,25 @@ extra fields.
 
 The easiest way to use fluent multilingual text fields is with
 [ckanext-scheming](https://github.com/open-data/ckanext-scheming/).
+Add `ckanext.fluent:presets.json` to your scheming.presets
+configuration settings:
+
+```json
+scheming.presets = ckanext.scheming:presets.json
+                   ckanext.fluent:presets.json
+```
+
 A fluent multilingual field in a scheming schema
 will look something like::
 
 ```json
 {
   "field_name": "books",
-  "form_snippet": "fluent_text.html",
-  "display_snippet": "fluent_text.html",
+  "preset": "fluent_text",
   "label": {
     "en": "Books",
     "fr": "Livres"
   },
-  "validators": "fluent_text",
-  "output_validators": "fluent_text_output",
   "form_languages": ["en", "fr"]
 }
 ```
@@ -46,7 +51,7 @@ and are updated as an object, eg.:
 
 ```json
 {
-  "...": "..."
+  "...": "...",
   "books": {
     "en": "Franklin",
     "fr": "Benjamin"

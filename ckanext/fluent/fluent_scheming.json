@@ -8,27 +8,21 @@
       "label": {
           "en": "Title",
           "fr": "Titre"},
-      "form_snippet": "large_text.html",
-      "validators": "if_empty_same_as(name) unicode",
-      "form_attrs": {"data-module": "slug-preview-target"},
+      "preset": "title",
       "form_placeholder": "eg. Yellow Submarine"
     },
     {
       "field_name": "name",
       "label": "URL",
-      "form_snippet": "slug.html",
-      "validators": "not_empty unicode name_validator package_name_validator",
+      "preset": "dataset_slug",
       "form_placeholder": "eg. yellow-submarine"
     },
     {
       "field_name": "books_ml",
-      "form_snippet": "fluent_text.html",
-      "display_snippet": "fluent_text.html",
       "label": {
           "en": "Books",
           "fr": "Livres"},
-      "validators": "fluent_text",
-      "output_validators": "fluent_text_output",
+      "preset": "fluent_text",
       "form_languages": ["en", "fr"]
     }
   ],
@@ -36,12 +30,7 @@
     {
       "field_name": "url",
       "label": "URL",
-      "validators": "not_empty unicode remove_whitespace",
-      "form_snippet": "upload.html",
-      "form_placeholder": "http://example.com/photo.jpg",
-      "upload_field": "upload",
-      "upload_clear": "clear_upload",
-      "upload_label": "Photo"
+      "preset": "resource_url_upload"
     }
   ]
 }

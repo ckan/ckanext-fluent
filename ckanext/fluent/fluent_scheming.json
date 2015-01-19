@@ -2,6 +2,7 @@
   "scheming_version": 1,
   "dataset_type": "fluent-test",
   "about_url": "http://github.com/open-data/ckanext-fluent",
+  "form_languages": ["en", "fr"],
   "dataset_fields": [
     {
       "field_name": "title",
@@ -22,8 +23,7 @@
       "label": {
           "en": "Books",
           "fr": "Livres"},
-      "preset": "fluent_text",
-      "form_languages": ["en", "fr"]
+      "preset": "fluent_text"
     },
     {
       "field_name": "keywords",
@@ -31,8 +31,8 @@
           "en": "Keywords",
           "fr": "Mots-cl\u00e9s"
       },
-      "preset": "fluent_tags",
-      "form_languages": ["en", "fr"]
+      "form_languages": ["en", "fr", "es"],
+      "preset": "fluent_tags"
     }
   ],
   "resource_fields": [

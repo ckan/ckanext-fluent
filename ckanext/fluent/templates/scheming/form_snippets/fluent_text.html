@@ -1,6 +1,6 @@
 {% import 'macros/form.html' as form %}
 
-{%- for lang in field.form_languages -%}
+{%- for lang in h.fluent_form_languages(schema, field) -%}
   {{ form.input(
     field.field_name + '-' + lang,
     id='field-' + field.field_name + '-' + lang,

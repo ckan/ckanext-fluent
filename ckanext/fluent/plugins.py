@@ -1,19 +1,25 @@
 import ckan.plugins as p
 from ckan.plugins.toolkit import add_template_directory
 
-from ckanext.fluent import validators
+from ckanext.fluent import validators, helpers
 
 
 
 class FluentPlugin(p.SingletonPlugin):
     p.implements(p.IValidators)
     p.implements(p.IConfigurer)
+    p.implements(p.ITemplateHelpers)
 
     def update_config(self, config):
         """
         We have some form snippets that support ckanext-scheming
         """
         add_template_directory(config, 'templates')
+
+    def get_helpers(self):
+        return {
+            'fluent_form_languages': helpers.fluent_form_languages
+            }
 
     def get_validators(self):
         return {

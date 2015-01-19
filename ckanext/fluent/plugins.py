@@ -20,4 +20,7 @@ class FluentPlugin(p.SingletonPlugin):
             'fluent_text': validators.fluent_text,
             'fluent_text_output':
                 validators.fluent_text_output,
+            'fluent_tags': validators.fluent_tags,
+            'fluent_tags_output':
+                validators.fluent_tags_output,
             }

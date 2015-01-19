@@ -18,11 +18,20 @@
       "form_placeholder": "eg. yellow-submarine"
     },
     {
-      "field_name": "books_ml",
+      "field_name": "books",
       "label": {
           "en": "Books",
           "fr": "Livres"},
       "preset": "fluent_text",
+      "form_languages": ["en", "fr"]
+    },
+    {
+      "field_name": "keywords",
+      "label": {
+          "en": "Keywords",
+          "fr": "Mots-cl\u00e9s"
+      },
+      "preset": "fluent_tags",
       "form_languages": ["en", "fr"]
     }
   ],

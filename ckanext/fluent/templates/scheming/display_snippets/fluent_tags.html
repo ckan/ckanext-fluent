@@ -1,0 +1,12 @@
+{%- for lang in field.form_languages -%}
+  {%- if data[field.field_name].get(lang) -%}
+    {% snippet "scheming/display_snippets/fluent_tags_lang.html",
+      field=field, lang=lang, data=data %}
+  {%- endif -%}
+{%- endfor -%}
+{%- for lang in data[field.field_name] -%}
+  {%- if lang not in field.form_languages -%}
+    {% snippet "scheming/display_snippets/fluent_tags_lang.html",
+      field=field, lang=lang, data=data %}
+  {%- endif -%}
+{%- endfor -%}

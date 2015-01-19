@@ -11,6 +11,19 @@
         "validators": "fluent_text",
         "output_validators": "fluent_text_output"
       }
+    },
+    {
+      "preset_name": "fluent_tags",
+      "values": {
+        "form_snippet": "fluent_text.html",
+        "display_snippet": "fluent_tags.html",
+        "validators": "fluent_tags",
+        "output_validators": "fluent_tags_output",
+        "form_attrs": {
+          "data-module": "autocomplete",
+          "data-module-tags": ""
+        }
+      }
     }
   ]
 }

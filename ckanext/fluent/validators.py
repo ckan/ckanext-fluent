@@ -191,7 +191,7 @@ def fluent_tags(key, data, errors, context):
                     text = text.decode('utf-8')
                 except UnicodeDecodeError:
                     errors[name]. append(_('expected UTF-8 encoding'))
-        if output is not None:
+        if output is not None and text:
             output[lang] = text.split(',')
 
     if output is None:

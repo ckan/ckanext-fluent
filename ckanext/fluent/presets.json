@@ -15,7 +15,7 @@
     {
       "preset_name": "fluent_tags",
       "values": {
-        "form_snippet": "fluent_text.html",
+        "form_snippet": "fluent_tags.html",
         "display_snippet": "fluent_tags.html",
         "validators": "fluent_tags",
         "output_validators": "fluent_tags_output",

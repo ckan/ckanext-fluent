@@ -24,6 +24,15 @@
           "data-module-tags": ""
         }
       }
+    },
+    {
+      "preset_name": "fluent_markdown",
+      "values": {
+        "form_snippet": "fluent_markdown.html",
+        "display_snippet": "fluent_markdown.html",
+        "validators": "fluent_text",
+        "output_validators": "fluent_text_output"
+      }
     }
   ]
 }

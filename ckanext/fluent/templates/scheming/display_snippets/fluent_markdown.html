@@ -1,0 +1,15 @@
+{%- set form_languages = h.fluent_form_languages(schema, field) -%}
+{%- set values = data[field.field_name] -%}
+<dl>
+{%- for lang in form_languages -%}
+  {%- if values.get(lang) -%}
+    <dt>{{ lang }}</dt><dd>{{ values[lang] }}</dd>
+  {%- endif -%}
+{%- endfor -%}
+{%- for lang in values -%}
+  {%- if lang not in form_languages -%}
+    <dt>{{ lang }}</dt><dd>{{ values[lang] }}</dd>
+  {%- endif -%}
+{%- endfor -%}
+</dl>
+

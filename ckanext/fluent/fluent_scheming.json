@@ -23,7 +23,8 @@
       "label": {
           "en": "Books",
           "fr": "Livres"},
-      "preset": "fluent_text"
+      "preset": "fluent_text",
+      "required": true
     },
     {
       "field_name": "keywords",

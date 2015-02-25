@@ -1,7 +1,7 @@
 import ckan.plugins as p
 from ckan.plugins.toolkit import add_template_directory
 
-from ckanext.fluent import validators, helpers
+from ckanext.fluent import validators, helpers, scheming_validators
 
 
 
@@ -29,4 +29,6 @@ class FluentPlugin(p.SingletonPlugin):
             'fluent_tags': validators.fluent_tags,
             'fluent_tags_output':
                 validators.fluent_tags_output,
+            'fluent_scheming_required':
+                scheming_validators.fluent_scheming_required,
             }

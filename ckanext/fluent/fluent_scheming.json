@@ -33,7 +33,8 @@
           "fr": "Mots-cl\u00e9s"
       },
       "form_languages": ["en", "fr", "es"],
-      "preset": "fluent_tags"
+      "preset": "fluent_tags",
+      "required": true
     }
   ],
   "resource_fields": [

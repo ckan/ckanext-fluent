@@ -4,6 +4,18 @@
     {%- do my_errors.append(key) -%}
   {%- endif -%}
 {%- endfor -%}
+
+{# List errors in the language order from the schema #}
+{%- for lang in h.fluent_form_languages(schema, field) -%}
+  {%- set key = field.field_name + '-' + lang -%}
+  {%- if key in my_errors -%}
+    {%- set errors = unprocessed.pop(key) -%}
+    <li data-field-label="{{ key }}">{{ lang.upper() }} {{
+      h.scheming_language_text(field.label)}}: {{ errors[0] }}
+    {%- do my_errors.remove(key) -%}
+  {%- endif -%}
+{%- endfor -%}
+
 {%- for key in my_errors | sort -%}
   {%- set errors = unprocessed.pop(key) -%}
   {%- set lang = key[(field.field_name + '-') | length:] -%}

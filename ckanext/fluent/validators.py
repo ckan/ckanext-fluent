@@ -1,21 +1,26 @@
 import json
 import re
 
-from ckan.plugins.toolkit import missing, _
+from ckan.plugins.toolkit import missing, _, get_validator, Invalid
 
 from ckanext.fluent.helpers import fluent_form_languages
 
 ISO_639_LANGUAGE = u'^[a-z][a-z][a-z]?[a-z]?$'
 
+tag_length_validator = get_validator('tag_length_validator')
+tag_name_validator = get_validator('tag_name_validator')
+
 try:
-    from ckanext.scheming.validation import scheming_validator
+    from ckanext.scheming.validation import (
+        scheming_validator, validators_from_string)
 except ImportError:
-    # If scheming can't be imported, replace our validators that require it
-    # with a noop
+    # If scheming can't be imported, return a normal validator instead
+    # of the scheming validator
     def scheming_validator(fn):
         def noop(key, data, errors, context):
             return fn(None, None)(key, data, errors, context)
         return noop
+    validators_from_string = None
 
 @scheming_validator
 def fluent_text(field, schema):
@@ -159,10 +164,21 @@ def fluent_tags(field, schema):
 
        fieldname-en = "big,large"
        fieldname-fr = "grande"
+
+    Validation of each tag is performed with validators
+    tag_length_validator and tag_name_validator. When using
+    ckanext-scheming these may be overridden with the
+    "tag_validators" field value
     """
+    # XXX this validator is too long and should be broken up
+
     required_langs = []
     if field and field.get('required'):
         required_langs = fluent_form_languages(schema, field)
+
+    tag_validators = [tag_length_validator, tag_name_validator]
+    if field and 'tag_validators' in field:
+        tag_validators = validators_from_string(field['tag_validators'])
 
     def validator(key, data, errors, context):
         if errors[key]:
@@ -206,7 +222,16 @@ def fluent_tags(field, schema):
                                     lang=lang, num=i))
                     else:
                         out.append(v)
-                value[lang] = out
+
+                tags = []
+                errs = []
+                for tag in out:
+                    newtag, tagerrs = _validate_single_tag(tag, tag_validators)
+                    errs.extend(tagerrs)
+                    tags.append(newtag)
+                if errs:
+                    errors[key].extend(errs)
+                value[lang] = newtags
 
             for lang in required_langs:
                 if value.get(lang):
@@ -242,7 +267,15 @@ def fluent_tags(field, schema):
                     except UnicodeDecodeError:
                         errors[name]. append(_('expected UTF-8 encoding'))
             if output is not None and text:
-                output[lang] = text.split(',')
+                tags = []
+                errs = []
+                for tag in text.split(','):
+                    newtag, tagerrs = _validate_single_tag(tag, tag_validators)
+                    errs.extend(tagerrs)
+                    tags.append(newtag)
+                output[lang] = tags
+                if errs:
+                    errors[key[:-1] + (name,)] = errs
 
         for lang in required_langs:
             if extras.get(prefix + lang):
@@ -268,3 +301,17 @@ def fluent_tags_output(value):
     if isinstance(value, dict):
         return value
     return json.loads(value)
+
+
+def _validate_single_tag(name, validators):
+    """
+    Return (new_name, errors_list) for validators in the form
+    validator(value, context)
+    """
+    errors = []
+    for v in validators:
+        try:
+            name = v(name, {})
+        except Invalid as e:
+            errors.append(e.error)
+    return name, errors

@@ -7,7 +7,7 @@
     label=lang.upper() + ' ' + h.scheming_language_text(field.label),
     placeholder=h.scheming_language_text(field.form_placeholder, lang),
     value=data.get(field.field_name, {})[lang],
-    error=errors[field.field_name],
+    error=errors[field.field_name + '-' + lang],
     attrs=field.form_attrs or {},
     is_required=h.scheming_field_required(field)
     ) }}

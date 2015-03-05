@@ -178,7 +178,8 @@ def fluent_tags(field, schema):
 
     tag_validators = [tag_length_validator, tag_name_validator]
     if field and 'tag_validators' in field:
-        tag_validators = validators_from_string(field['tag_validators'])
+        tag_validators = validators_from_string(
+            field['tag_validators'], field, schema)
 
     def validator(key, data, errors, context):
         if errors[key]:

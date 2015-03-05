@@ -231,7 +231,7 @@ def fluent_tags(field, schema):
                     tags.append(newtag)
                 if errs:
                     errors[key].extend(errs)
-                value[lang] = newtags
+                value[lang] = tags
 
             for lang in required_langs:
                 if value.get(lang):

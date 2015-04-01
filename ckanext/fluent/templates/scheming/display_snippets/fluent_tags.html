@@ -2,13 +2,13 @@
 {%- set values = data[field.field_name] -%}
 
 {%- for lang in form_languages -%}
-  {%- if values.get(lang) -%}
+  {%- if values and values.get(lang) -%}
     {% snippet "scheming/display_snippets/fluent_tags_lang.html",
       field=field, lang=lang, data=data %}
   {%- endif -%}
 {%- endfor -%}
 {%- for lang in values -%}
-  {%- if lang not in form_languages -%}
+  {%- if values and lang not in form_languages -%}
     {% snippet "scheming/display_snippets/fluent_tags_lang.html",
       field=field, lang=lang, data=data %}
   {%- endif -%}

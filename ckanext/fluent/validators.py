@@ -2,6 +2,7 @@ import json
 import re
 
 from ckan.plugins.toolkit import missing, _, get_validator, Invalid
+from pylons import config
 
 from ckanext.fluent.helpers import fluent_form_languages
 
@@ -146,7 +147,11 @@ def fluent_text_output(value):
     """
     if isinstance(value, dict):
         return value
-    return json.loads(value)
+    try:
+        return json.loads(value)
+    except ValueError:
+        # plain string in the db, assume default locale
+        return {config.get('ckan.locale_default', 'en'): value}
 
 
 @scheming_validator

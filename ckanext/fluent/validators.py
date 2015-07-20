@@ -267,11 +267,13 @@ def fluent_tags(field, schema):
                 errors[name].append(_('invalid type'))
                 continue
 
-                if isinstance(text, str):
-                    try:
-                        text = text.decode('utf-8')
-                    except UnicodeDecodeError:
-                        errors[name]. append(_('expected UTF-8 encoding'))
+            if isinstance(text, str):
+                try:
+                    text = text.decode('utf-8')
+                except UnicodeDecodeError:
+                    errors[name]. append(_('expected UTF-8 encoding'))
+                    continue
+
             if output is not None and text:
                 tags = []
                 errs = []

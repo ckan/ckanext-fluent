@@ -4,7 +4,7 @@
   {{ form.input(
     field.field_name + '-' + lang,
     id='field-' + field.field_name + '-' + lang,
-    label=lang.upper() + ' ' + h.scheming_language_text(field.label),
+    label=h.fluent_form_label(field, lang),
     placeholder=h.scheming_language_text(field.form_placeholder),
     value=','.join(data.get(field.field_name, {}).get(lang, []))
         or data[field.field_name + '-' + lang],

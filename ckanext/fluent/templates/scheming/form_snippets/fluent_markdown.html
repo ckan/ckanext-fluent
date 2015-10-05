@@ -6,8 +6,8 @@
     id='field-' + field.field_name + '-' + lang,
     label=h.fluent_form_label(field, lang),
     placeholder=h.scheming_language_text(field.form_placeholder, lang),
-    value=data.get(field.field_name, {})[lang]
-        or data[field.field_name + '-' + lang],
+    value=data[field.field_name + '-' + lang]
+        or data.get(field.field_name, {})[lang],
     error=errors[field.field_name + '-' + lang],
     attrs=field.form_attrs or {},
     is_required=h.scheming_field_required(field)

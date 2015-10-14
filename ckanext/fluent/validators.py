@@ -271,7 +271,7 @@ def fluent_tags(field, schema):
                 try:
                     text = text.decode('utf-8')
                 except UnicodeDecodeError:
-                    errors[name]. append(_('expected UTF-8 encoding'))
+                    errors[name].append(_('expected UTF-8 encoding'))
                     continue
 
             if output is not None and text:

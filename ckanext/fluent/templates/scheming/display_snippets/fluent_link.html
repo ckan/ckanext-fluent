@@ -1,0 +1,14 @@
+{%- set form_languages = h.fluent_form_languages(schema, field) -%}
+{%- set values = data[field.field_name] -%}
+<dl>
+{%- for lang in form_languages -%}
+  {%- if values and values.get(lang) -%}
+    <dt>{{ lang }}</dt><dd>{{ h.link_to(values[lang], rel=field.display_property, target='_blank') }}</dd>
+  {%- endif -%}
+{%- endfor -%}
+{%- for lang in values -%}
+  {%- if values and lang not in form_languages -%}
+    <dt>{{ lang }}</dt><dd>{{ values[lang] }}</dd>
+  {%- endif -%}
+{%- endfor -%}
+</dl>

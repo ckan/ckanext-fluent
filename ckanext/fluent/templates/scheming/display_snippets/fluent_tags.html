@@ -1,15 +1,16 @@
-{%- set form_languages = h.fluent_form_languages(schema, field) -%}
-{%- set values = data[field.field_name] -%}
-
-{%- for lang in form_languages -%}
-  {%- if values and values.get(lang) -%}
-    {% snippet "scheming/display_snippets/fluent_tags_lang.html",
-      field=field, lang=lang, data=data %}
-  {%- endif -%}
-{%- endfor -%}
-{%- for lang in values -%}
-  {%- if values and lang not in form_languages -%}
-    {% snippet "scheming/display_snippets/fluent_tags_lang.html",
-      field=field, lang=lang, data=data %}
-  {%- endif -%}
-{%- endfor -%}
+{# slight abuse of scheming_language_text for selecting the desired
+   language version #}
+{%- set value = h.scheming_language_text(data[field.field_name]) -%}
+<section class="tags">
+{% block tag_list %}
+  <ul class="tag-list">
+    {% for tag in value %}
+      <li>
+        <a class="{% block tag_list_item_class %}tag{% endblock %}" href="{%
+          url_for controller='package', action='search', tags=tag %}">{{
+            h.truncate(tag, 22) }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
+<section class="tags">

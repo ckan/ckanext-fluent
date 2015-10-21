@@ -10,7 +10,7 @@
   {%- set key = field.field_name + '-' + lang -%}
   {%- if key in my_errors -%}
     {%- set errors = unprocessed.pop(key) -%}
-    <li data-field-label="{{ key }}">{{ lang.upper() }} {{
+    <li data-field-label="{{ key }}"> {{
       h.fluent_form_label(field, lang)}}: {{ errors[0] }}
     {%- do my_errors.remove(key) -%}
   {%- endif -%}
@@ -19,6 +19,6 @@
 {%- for key in my_errors | sort -%}
   {%- set errors = unprocessed.pop(key) -%}
   {%- set lang = key[(field.field_name + '-') | length:] -%}
-  <li data-field-label="{{ key }}">{{ lang.upper() }} {{
+  <li data-field-label="{{ key }}"> {{
     h.fluent_form_label(field, lang)}}: {{ errors[0] }}
 {%- endfor -%}

@@ -1,0 +1,2 @@
+recursive-include ckanext *.html *.json *.yaml
+include README.md CHANGELOG.md

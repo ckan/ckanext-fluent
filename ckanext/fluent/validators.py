@@ -5,8 +5,11 @@ from ckan.plugins.toolkit import missing, _, get_validator, Invalid
 from pylons import config
 
 from ckanext.fluent.helpers import fluent_form_languages
+from ckanext.scheming.helpers import scheming_language_text
 
 ISO_639_LANGUAGE = u'^[a-z][a-z][a-z]?[a-z]?$'
+
+LANG_SUFFIX = '_translated'
 
 tag_length_validator = get_validator('tag_length_validator')
 tag_name_validator = get_validator('tag_name_validator')
@@ -22,6 +25,21 @@ except ImportError:
             return fn(None, None)(key, data, errors, context)
         return noop
     validators_from_string = None
+
+
+def fluent_core_field_output(key, data, errors, context):
+    """
+    Return a value for a core field using a multilingual dict.
+    """
+    data[key] = fluent_text_output(data[key])
+
+    k = key[-1]
+    if k.endswith(LANG_SUFFIX):
+        new_key = key[:-1] + (k[:-len(LANG_SUFFIX)],)
+
+        if new_key in data:
+            data[new_key] = scheming_language_text(data[key])
+
 
 @scheming_validator
 def fluent_text(field, schema):

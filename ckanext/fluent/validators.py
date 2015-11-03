@@ -26,19 +26,23 @@ except ImportError:
         return noop
     validators_from_string = None
 
+@scheming_validator
+def fluent_core_translated_output(field, schema):
+    assert field['field_name'].endswith(LANG_SUFFIX), 'Output validator "fluent_core_translated" must only used on a field that ends with "_translated"'
 
-def fluent_core_field_output(key, data, errors, context):
-    """
-    Return a value for a core field using a multilingual dict.
-    """
-    data[key] = fluent_text_output(data[key])
+    def validator(key, data, errors, context):
+        """
+        Return a value for a core field using a multilingual dict.
+        """
+        data[key] = fluent_text_output(data[key])
 
-    k = key[-1]
-    if k.endswith(LANG_SUFFIX):
+        k = key[-1]
         new_key = key[:-1] + (k[:-len(LANG_SUFFIX)],)
 
         if new_key in data:
             data[new_key] = scheming_language_text(data[key])
+
+    return validator
 
 
 @scheming_validator

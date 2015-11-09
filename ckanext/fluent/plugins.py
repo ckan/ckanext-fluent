@@ -30,4 +30,6 @@ class FluentPlugin(p.SingletonPlugin):
             'fluent_tags': validators.fluent_tags,
             'fluent_tags_output':
                 validators.fluent_tags_output,
+            'fluent_core_translated_output':
+                validators.fluent_core_translated_output,
             }

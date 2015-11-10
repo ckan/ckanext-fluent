@@ -58,3 +58,23 @@ and are updated as an object, eg.:
   },
   "...": "..."
 }
+```
+## Using fluent with core fields ##
+
+Fluent should not be directly used on ckan core fields such as `title` and `notes`.
+To use fluent to translate core fields, you should use a field with the `_translated`
+suffix appended to the core field name (e.g. `title_translated`) and use the `fluent_core_translated`
+preset. By doing so, the translated version of the field is stored in the field with the
+`_translated` suffix while the core field displays the value for the site's default language.
+
+```json
+
+{
+  "field_name": "title_translated",
+  "preset": "fluent_core_translated",
+  "label": {
+    "en": "Franklin",
+    "fr": "Benjamin"
+  }
+}
+```

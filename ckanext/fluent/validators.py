@@ -40,7 +40,7 @@ def fluent_core_translated_output(field, schema):
         new_key = key[:-1] + (k[:-len(LANG_SUFFIX)],)
 
         if new_key in data:
-            data[new_key] = scheming_language_text(data[key])
+            data[new_key] = scheming_language_text(data[key], config.get('ckan.locale_default', 'en'))
 
     return validator
 

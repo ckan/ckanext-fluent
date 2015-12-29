@@ -6,7 +6,7 @@
 {%- endfor -%}
 
 {# List errors in the language order from the schema #}
-{%- for lang in h.fluent_form_languages(schema, field) -%}
+{%- for lang in h.fluent_form_languages(field, entity_type, object_type, schema) -%}
   {%- set key = field.field_name + '-' + lang -%}
   {%- if key in my_errors -%}
     {%- set errors = unprocessed.pop(key) -%}

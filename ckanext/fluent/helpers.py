@@ -21,7 +21,7 @@ def fluent_form_languages(field=None, entity_type=None, object_type=None,
     if entity_type and object_type:
         # late import for compatibility with older ckanext-scheming
         from ckanext.scheming.helpers import scheming_get_schema
-        schema = scheming.get_schema(entity_type, object_type)
+        schema = scheming_get_schema(entity_type, object_type)
         if schema and 'form_languages' in schema:
             return schema['form_languages']
 

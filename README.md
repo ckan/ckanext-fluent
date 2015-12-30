@@ -18,7 +18,7 @@ scheming.presets = ckanext.scheming:presets.json
                    ckanext.fluent:presets.json
 ```
 
-# `fluent_text` fields
+## `fluent_text` fields
 
 A fluent multilingual text field in a scheming schema:
 

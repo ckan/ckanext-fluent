@@ -75,7 +75,7 @@ def fluent_text(field, schema):
     # bit of duplication in handling the different types of input
     required_langs = []
     if field and field.get('required'):
-        required_langs = fluent_form_languages(schema, field)
+        required_langs = fluent_form_languages(field, schema=schema)
 
     def validator(key, data, errors, context):
         # just in case there was an error before our validator,
@@ -201,7 +201,7 @@ def fluent_tags(field, schema):
 
     required_langs = []
     if field and field.get('required'):
-        required_langs = fluent_form_languages(schema, field)
+        required_langs = fluent_form_languages(field, schema=schema)
 
     tag_validators = [tag_length_validator, tag_name_validator]
     if field and 'tag_validators' in field:

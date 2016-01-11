@@ -3,18 +3,27 @@ from ckan.lib.helpers import get_available_locales
 from ckanext.scheming.helpers import scheming_language_text
 
 
-def fluent_form_languages(schema, field=None):
+def fluent_form_languages(field=None, entity_type=None, object_type=None,
+        schema=None):
     """
     Return a list of language codes for this form (or form field)
 
     1. return field['form_languages'] if it is defined
     2. return schema['form_languages'] if it is defined
-    3. return languages from site configuration
+    3. get schema from entity_type + object_type then
+       return schema['form_languages'] if they are defined
+    4. return languages from site configuration
     """
-    if 'form_languages' in field:
+    if field and 'form_languages' in field:
         return field['form_languages']
-    if 'form_languages' in schema:
+    if schema and 'form_languages' in schema:
         return schema['form_languages']
+    if entity_type and object_type:
+        # late import for compatibility with older ckanext-scheming
+        from ckanext.scheming.helpers import scheming_get_schema
+        schema = scheming_get_schema(entity_type, object_type)
+        if schema and 'form_languages' in schema:
+            return schema['form_languages']
 
     langs = []
     for l in get_available_locales():

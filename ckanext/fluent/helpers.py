@@ -1,4 +1,4 @@
-from ckan.lib.helpers import get_available_locales
+from ckan.lib.i18n import get_available_locales
 
 from ckanext.scheming.helpers import scheming_language_text
 

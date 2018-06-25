@@ -31,6 +31,21 @@ def fluent_form_languages(field=None, entity_type=None, object_type=None,
             langs.append(l.language)
     return langs
 
+
+def fluent_alternate_languages(field=None, schema=None):
+    """
+    Return a dict of alternates acceptable as replacements for
+    required languages, as given in the field or schema.
+
+    e.g. {'en': ['en-GB']}
+    """
+    if field and 'alternate_languages' in field:
+        return field['alternate_languages']
+    if schema and 'alternate_languages' in schema:
+        return schema['alternate_languages']
+    return {}
+
+
 def fluent_form_label(field, lang):
     """
     Return a label for the input field for the given language

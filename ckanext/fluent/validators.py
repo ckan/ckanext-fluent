@@ -4,27 +4,20 @@ import re
 from ckan.plugins.toolkit import missing, _, get_validator, Invalid
 from pylons import config
 
-from ckanext.fluent.helpers import fluent_form_languages
+from ckanext.fluent.helpers import (
+    fluent_form_languages, fluent_alternate_languages)
 from ckanext.scheming.helpers import scheming_language_text
+from ckanext.scheming.validation import (
+    scheming_validator, validators_from_string)
 
-ISO_639_LANGUAGE = u'^[a-z][a-z][a-z]?[a-z]?$'
+# loose definition of BCP47-like strings
+BCP_47_LANGUAGE = u'^[a-z]{2,8}(-[0-9a-zA-Z]{1,8})*$'
 
 LANG_SUFFIX = '_translated'
 
 tag_length_validator = get_validator('tag_length_validator')
 tag_name_validator = get_validator('tag_name_validator')
 
-try:
-    from ckanext.scheming.validation import (
-        scheming_validator, validators_from_string)
-except ImportError:
-    # If scheming can't be imported, return a normal validator instead
-    # of the scheming validator
-    def scheming_validator(fn):
-        def noop(key, data, errors, context):
-            return fn(None, None)(key, data, errors, context)
-        return noop
-    validators_from_string = None
 
 @scheming_validator
 def fluent_core_translated_output(field, schema):
@@ -74,8 +67,10 @@ def fluent_text(field, schema):
     # but should be easier for fluent users and eliminates quite a
     # bit of duplication in handling the different types of input
     required_langs = []
+    alternate_langs = {}
     if field and field.get('required'):
         required_langs = fluent_form_languages(field, schema=schema)
+        alternate_langs = fluent_alternate_languages(field, schema=schema)
 
     def validator(key, data, errors, context):
         # just in case there was an error before our validator,
@@ -101,7 +96,7 @@ def fluent_text(field, schema):
 
             for lang, text in value.iteritems():
                 try:
-                    m = re.match(ISO_639_LANGUAGE, lang)
+                    m = re.match(BCP_47_LANGUAGE, lang)
                 except TypeError:
                     errors[key].append(_('invalid type for language code: %r')
                         % lang)
@@ -120,7 +115,8 @@ def fluent_text(field, schema):
                             % lang)
 
             for lang in required_langs:
-                if value.get(lang):
+                if value.get(lang) or any(
+                        value.get(l) for l in alternate_langs.get(lang, [])):
                     continue
                 errors[key].append(_('Required language "%s" missing') % lang)
 
@@ -137,7 +133,7 @@ def fluent_text(field, schema):
             if not name.startswith(prefix):
                 continue
             lang = name.split('-', 1)[1]
-            m = re.match(ISO_639_LANGUAGE, lang)
+            m = re.match(BCP_47_LANGUAGE, lang)
             if not m:
                 errors[name] = [_('invalid language code: "%s"') % lang]
                 output = None
@@ -147,7 +143,8 @@ def fluent_text(field, schema):
                 output[lang] = text
 
         for lang in required_langs:
-            if extras.get(prefix + lang):
+            if extras.get(prefix + lang) or any(
+                    value.get(prefix + l) for l in alternate_langs.get(lang, [])):
                 continue
             errors[key[:-1] + (key[-1] + '-' + lang,)] = [_('Missing value')]
             output = None
@@ -200,8 +197,10 @@ def fluent_tags(field, schema):
     # XXX this validator is too long and should be broken up
 
     required_langs = []
+    alternate_langs = {}
     if field and field.get('required'):
         required_langs = fluent_form_languages(field, schema=schema)
+        alternate_langs = fluent_alternate_languages(field, schema=schema)
 
     tag_validators = [tag_length_validator, tag_name_validator]
     if field and 'tag_validators' in field:
@@ -221,7 +220,7 @@ def fluent_tags(field, schema):
 
             for lang, keys in value.items():
                 try:
-                    m = re.match(ISO_639_LANGUAGE, lang)
+                    m = re.match(BCP_47_LANGUAGE, lang)
                 except TypeError:
                     errors[key].append(_('invalid type for language code: %r')
                         % lang)
@@ -262,7 +261,8 @@ def fluent_tags(field, schema):
                 value[lang] = tags
 
             for lang in required_langs:
-                if value.get(lang):
+                if value.get(lang) or any(
+                        value.get(l) for l in alternate_langs.get(lang, [])):
                     continue
                 errors[key].append(_('Required language "%s" missing') % lang)
 
@@ -279,7 +279,7 @@ def fluent_tags(field, schema):
             if not name.startswith(prefix):
                 continue
             lang = name.split('-', 1)[1]
-            m = re.match(ISO_639_LANGUAGE, lang)
+            m = re.match(BCP_47_LANGUAGE, lang)
             if not m:
                 errors[name] = [_('invalid language code: "%s"') % lang]
                 output = None
@@ -308,7 +308,8 @@ def fluent_tags(field, schema):
                     errors[key[:-1] + (name,)] = errs
 
         for lang in required_langs:
-            if extras.get(prefix + lang):
+            if extras.get(prefix + lang) or any(
+                    value.get(prefix + l) for l in alternate_langs.get(lang, [])):
                 continue
             errors[key[:-1] + (key[-1] + '-' + lang,)] = [_('Missing value')]
             output = None

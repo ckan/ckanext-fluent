@@ -309,7 +309,7 @@ def fluent_tags(field, schema):
 
         for lang in required_langs:
             if extras.get(prefix + lang) or any(
-                    value.get(prefix + l) for l in alternate_langs.get(lang, [])):
+                    extras.get(prefix + l) for l in alternate_langs.get(lang, [])):
                 continue
             errors[key[:-1] + (key[-1] + '-' + lang,)] = [_('Missing value')]
             output = None

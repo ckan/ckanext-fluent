@@ -4,7 +4,6 @@ from ckan.plugins.toolkit import add_template_directory
 from ckanext.fluent import validators, helpers
 
 
-
 class FluentPlugin(p.SingletonPlugin):
     p.implements(p.IValidators)
     p.implements(p.IConfigurer)
@@ -32,4 +31,6 @@ class FluentPlugin(p.SingletonPlugin):
                 validators.fluent_tags_output,
             'fluent_core_translated_output':
                 validators.fluent_core_translated_output,
+            'ignore_empty_fluent':
+                validators.ignore_empty_fluent,
             }

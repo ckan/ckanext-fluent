@@ -2,6 +2,7 @@ import json
 import re
 
 from ckan.plugins.toolkit import missing, _, get_validator, Invalid
+from ckan.lib.navl.dictization_functions import StopOnError
 from pylons import config
 
 from ckanext.fluent.helpers import (
@@ -345,4 +346,25 @@ def _validate_single_tag(name, validators):
             name = v(name, {})
         except Invalid as e:
             errors.append(e.error)
-    return name, errors
+    return name.strip(), errors
+
+
+def ignore_empty_fluent(key, data, errors, context):
+    """
+    If the fluent dict has only empty values for all languages then ignore it
+
+    :param key:
+    :param data:
+    :param errors:
+    :param context:
+    :return:
+    """
+    fluent_dict = json.loads(data[key])
+    for k, v in fluent_dict.iteritems():
+        if isinstance(v, basestring) and v.strip():
+            return
+        for vv in v:
+            if vv.strip():
+                return
+    data.pop(key, None)
+    raise StopOnError

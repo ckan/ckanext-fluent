@@ -4,7 +4,7 @@ from ckanext.scheming.helpers import scheming_language_text
 
 
 def fluent_form_languages(field=None, entity_type=None, object_type=None,
-        schema=None):
+                          schema=None):
     """
     Return a list of language codes for this form (or form field)
 

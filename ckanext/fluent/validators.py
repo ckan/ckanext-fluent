@@ -21,7 +21,8 @@ tag_name_validator = get_validator('tag_name_validator')
 
 @scheming_validator
 def fluent_core_translated_output(field, schema):
-    assert field['field_name'].endswith(LANG_SUFFIX), 'Output validator "fluent_core_translated" must only used on a field that ends with "_translated"'
+    assert field['field_name'].endswith(LANG_SUFFIX), \
+        'Output validator "fluent_core_translated" must only used on a field that ends with "_translated"'
 
     def validator(key, data, errors, context):
         """
@@ -99,7 +100,7 @@ def fluent_text(field, schema):
                     m = re.match(BCP_47_LANGUAGE, lang)
                 except TypeError:
                     errors[key].append(_('invalid type for language code: %r')
-                        % lang)
+                                       % lang)
                     continue
                 if not m:
                     errors[key].append(_('invalid language code: "%s"') % lang)
@@ -112,7 +113,7 @@ def fluent_text(field, schema):
                         value[lang] = text.decode('utf-8')
                     except UnicodeDecodeError:
                         errors[key]. append(_('invalid encoding for "%s" value')
-                            % lang)
+                                            % lang)
 
             for lang in required_langs:
                 if value.get(lang) or any(
@@ -223,7 +224,7 @@ def fluent_tags(field, schema):
                     m = re.match(BCP_47_LANGUAGE, lang)
                 except TypeError:
                     errors[key].append(_('invalid type for language code: %r')
-                        % lang)
+                                       % lang)
                     continue
                 if not m:
                     errors[key].append(_('invalid language code: "%s"') % lang)

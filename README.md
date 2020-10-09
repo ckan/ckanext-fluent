@@ -108,3 +108,15 @@ preset. By doing so, the translated version of the field is stored in the field 
   }
 }
 ```
+
+## Tests
+
+At this time these tests use `nosetests` for CKAN 2.8.
+
+To run the extension tests, `cd` into the `ckanext-fluent` directory and run:
+
+`nosetests --ckan --with-pylons=test.ini ckanext/fluent/tests`
+
+Note: You may have to change the `test.ini` file (i.e.
+`use = config:../ckan/test-core.ini`) to find your `ckan/test-core.ini` file
+as this is relative to where you installed this extension.

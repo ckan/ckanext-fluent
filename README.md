@@ -113,7 +113,7 @@ preset. By doing so, the translated version of the field is stored in the field 
 
 These tests can be run against >= CKAN 2.8.
 
-This extension is using (`pytest-ckan`)[https://pypi.org/project/pytest-ckan/]
+This extension is using [`pytest-ckan`](https://pypi.org/project/pytest-ckan/)
 to allow for newer pytests to be used and backported to CKAN 2.8 versions.
 
 ### Test Setup
@@ -139,7 +139,9 @@ To run the extension tests, `cd` into the `ckanext-fluent` directory and run:
 Please try to include tests for new features and write/update tests when
 refactoring or updating existing features.
 
-Please try to follow the [CKAN extension testing docs]
-(https://docs.ckan.org/en/2.9/extensions/testing-extensions.html), [CKAN
-testing docs](https://docs.ckan.org/en/2.9/contributing/test.html) and use 
-[ckanext-scheming](https://github.com/ckan/ckanext-scheming/tree/master/ckanext/scheming/tests) as guidelines.
+Please try to follow the [CKAN extension testing
+docs](https://docs.ckan.org/en/2.9/extensions/testing-extensions.html),
+[CKAN testing docs](https://docs.ckan.org/en/2.9/contributing/test.html)
+and use [ckanext-scheming](
+https://github.com/ckan/ckanext-scheming/tree/master/ckanext/scheming/tests)
+as guidelines.

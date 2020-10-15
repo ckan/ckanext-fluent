@@ -111,12 +111,35 @@ preset. By doing so, the translated version of the field is stored in the field 
 
 ## Tests
 
-At this time these tests use `nosetests` for CKAN 2.8.
+These tests can be run against >= CKAN 2.8.
 
-To run the extension tests, `cd` into the `ckanext-fluent` directory and run:
+This extension is using (`pytest-ckan`)[https://pypi.org/project/pytest-ckan/]
+to allow for newer pytests to be used and backported to CKAN 2.8 versions.
 
-`nosetests --ckan --with-pylons=test.ini ckanext/fluent/tests`
+### Test Setup
+
+Install `ckanext-fluent` and `ckanext-scheming`.
+
+Install `pytest-ckan` by running:
+
+`pip install -r test-requirements.txt`
 
 Note: You may have to change the `test.ini` file (i.e.
 `use = config:../ckan/test-core.ini`) to find your `ckan/test-core.ini` file
 as this is relative to where you installed this extension.
+
+### Running Tests
+
+To run the extension tests, `cd` into the `ckanext-fluent` directory and run:
+
+`pytest --ckan-ini=test.ini ckanext/fluent/tests`
+
+### Writing Tests
+
+Please try to include tests for new features and write/update tests when
+refactoring or updating existing features.
+
+Please try to follow the [CKAN extension testing docs]
+(https://docs.ckan.org/en/2.9/extensions/testing-extensions.html), [CKAN
+testing docs](https://docs.ckan.org/en/2.9/contributing/test.html) and use 
+[ckanext-scheming](https://github.com/ckan/ckanext-scheming/tree/master/ckanext/scheming/tests) as guidelines.

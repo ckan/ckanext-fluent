@@ -122,7 +122,9 @@ Install `ckanext-fluent` and `ckanext-scheming`.
 
 Install `pytest-ckan` by running:
 
-`pip install -r test-requirements.txt`
+```sh
+pip install -r test-requirements.txt
+```
 
 Note: You may have to change the `test.ini` file (i.e.
 `use = config:../ckan/test-core.ini`) to find your `ckan/test-core.ini` file
@@ -132,7 +134,9 @@ as this is relative to where you installed this extension.
 
 To run the extension tests, `cd` into the `ckanext-fluent` directory and run:
 
-`pytest --ckan-ini=test.ini ckanext/fluent/tests`
+```sh
+pytest --ckan-ini=test.ini ckanext/fluent/tests
+```
 
 ### Writing Tests
 

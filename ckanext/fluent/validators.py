@@ -1,14 +1,16 @@
 import json
 import re
+import six
 
-from ckan.plugins.toolkit import missing, _, get_validator, Invalid
-from pylons import config
+from ckan.plugins.toolkit import missing, get_validator, Invalid
+from ckantoolkit import config, _
 
 from ckanext.fluent.helpers import (
     fluent_form_languages, fluent_alternate_languages)
 from ckanext.scheming.helpers import scheming_language_text
 from ckanext.scheming.validation import (
     scheming_validator, validators_from_string)
+
 
 # loose definition of BCP47-like strings
 BCP_47_LANGUAGE = u'^[a-z]{2,8}(-[0-9a-zA-Z]{1,8})*$'
@@ -81,7 +83,7 @@ def fluent_text(field, schema):
         value = data[key]
         # 1 or 2. dict or JSON encoded string
         if value is not missing:
-            if isinstance(value, basestring):
+            if isinstance(value, six.string_types):
                 try:
                     value = json.loads(value)
                 except ValueError:
@@ -94,7 +96,7 @@ def fluent_text(field, schema):
                 errors[key].append(_('expecting JSON object'))
                 return
 
-            for lang, text in value.iteritems():
+            for lang, text in value.items():
                 try:
                     m = re.match(BCP_47_LANGUAGE, lang)
                 except TypeError:
@@ -104,12 +106,13 @@ def fluent_text(field, schema):
                 if not m:
                     errors[key].append(_('invalid language code: "%s"') % lang)
                     continue
-                if not isinstance(text, basestring):
+                if not isinstance(text, six.string_types):
                     errors[key].append(_('invalid type for "%s" value') % lang)
                     continue
                 if isinstance(text, str):
                     try:
-                        value[lang] = text.decode('utf-8')
+                        value[lang] = text if six.PY3 else text.decode(
+                            'utf-8')
                     except UnicodeDecodeError:
                         errors[key]. append(_('invalid encoding for "%s" value')
                             % lang)
@@ -129,7 +132,7 @@ def fluent_text(field, schema):
         prefix = key[-1] + '-'
         extras = data.get(key[:-1] + ('__extras',), {})
 
-        for name, text in extras.iteritems():
+        for name, text in extras.items():
             if not name.startswith(prefix):
                 continue
             lang = name.split('-', 1)[1]
@@ -233,7 +236,7 @@ def fluent_tags(field, schema):
                     continue
                 out = []
                 for i, v in enumerate(keys):
-                    if not isinstance(v, basestring):
+                    if not isinstance(v, six.string_types):
                         errors[key].append(
                             _('invalid type for "{lang}" value item {num}').format(
                                 lang=lang, num=i))
@@ -241,7 +244,8 @@ def fluent_tags(field, schema):
 
                     if isinstance(v, str):
                         try:
-                            out.append(v.decode('utf-8'))
+                            out.append(v if six.PY3 else v.decode(
+                                'utf-8'))
                         except UnicodeDecodeError:
                             errors[key]. append(_(
                                 'expected UTF-8 encoding for '
@@ -275,7 +279,7 @@ def fluent_tags(field, schema):
         prefix = key[-1] + '-'
         extras = data.get(key[:-1] + ('__extras',), {})
 
-        for name, text in extras.iteritems():
+        for name, text in extras.items():
             if not name.startswith(prefix):
                 continue
             lang = name.split('-', 1)[1]
@@ -285,13 +289,14 @@ def fluent_tags(field, schema):
                 output = None
                 continue
 
-            if not isinstance(text, basestring):
+            if not isinstance(text, six.string_types):
                 errors[name].append(_('invalid type'))
                 continue
 
             if isinstance(text, str):
                 try:
-                    text = text.decode('utf-8')
+                    text = text if six.PY3 else text.decode(
+                        'utf-8')
                 except UnicodeDecodeError:
                     errors[name].append(_('expected UTF-8 encoding'))
                     continue

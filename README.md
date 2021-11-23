@@ -3,6 +3,14 @@
 This extension provides a way to store and return multilingul
 fields in CKAN datasets, resources, organizations and groups.
 
+## Installation
+```
+git clone https://github.com/ckan/ckanext-fluent.git
+cd ckanext-fluent
+python setup.py develop
+pip install -r requirements.txt
+```
+
 Add the `fluent` plugin to your ckan.plugins configuration
 settings and use ckanext-scheming or a custom form plugin to
 use the provided validators to store multilingual text in

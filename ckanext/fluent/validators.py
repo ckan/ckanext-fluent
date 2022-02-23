@@ -157,7 +157,7 @@ def fluent_text(field, schema):
 
         for lang in output:
             del extras[prefix + lang]
-        data[key] = json.dumps(output)
+        data[key] = json.dumps(output, ensure_ascii=False)
 
     return validator
 

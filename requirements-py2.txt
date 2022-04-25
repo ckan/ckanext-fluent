@@ -1,2 +1,0 @@
-six>=1.11.0
-ckantoolkit>=0.0.2

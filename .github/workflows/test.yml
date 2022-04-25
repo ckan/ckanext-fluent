@@ -47,15 +47,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Install py3 requirements
-        if: ${{ matrix.ckan-version == '2.10' || matrix.ckan-version == '2.9' }}
-        run: pip install -r requirements.txt
-      - name: Install py2 requirements  
-        if: ${{ matrix.ckan-version == '2.7' || matrix.ckan-version == '2.8' || matrix.ckan-version == '2.9-py2' }}
-        run: pip install -r requirements-py2.txt
-
       - name: Install requirements
         run: |
+          pip install -r requirements.txt
           pip install -r dev-requirements.txt
           pip install -e git+https://github.com/ckan/ckanext-scheming.git#egg=ckanext-scheming
           pip install -e .

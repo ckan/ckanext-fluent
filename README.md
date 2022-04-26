@@ -1,9 +1,13 @@
 # ckanext-fluent
 
-This extension provides a way to store and return multilingul
+This extension provides a way to store and return multilingual
 fields in CKAN datasets, resources, organizations and groups.
 
+The [ckanext-scheming](https://github.com/ckan/ckanext-scheming)
+extension is required for this extension to work.
+
 ## Installation
+
 ```
 git clone https://github.com/ckan/ckanext-fluent.git
 cd ckanext-fluent

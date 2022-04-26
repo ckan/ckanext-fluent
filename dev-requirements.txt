@@ -1,0 +1,3 @@
+mock
+pytest-ckan
+pytest-cov

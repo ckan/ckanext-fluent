@@ -1,5 +1,6 @@
 import ckan.plugins as p
 from ckan.plugins.toolkit import add_template_directory
+from ckan.lib.helpers import truncate
 
 from ckanext.fluent import validators, helpers
 
@@ -20,6 +21,7 @@ class FluentPlugin(p.SingletonPlugin):
         return {
             'fluent_form_languages': helpers.fluent_form_languages,
             'fluent_form_label': helpers.fluent_form_label,
+            'truncate': truncate
             }
 
     def get_validators(self):

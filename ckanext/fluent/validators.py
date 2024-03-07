@@ -124,7 +124,7 @@ def fluent_text(field, schema):
                 errors[key].append(_('Required language "%s" missing') % lang)
 
             if not errors[key]:
-                data[key] = json.dumps(value)
+                data[key] = json.dumps(value, ensure_ascii=False)
             return
 
         # 3. separate fields
@@ -157,7 +157,7 @@ def fluent_text(field, schema):
 
         for lang in output:
             del extras[prefix + lang]
-        data[key] = json.dumps(output)
+        data[key] = json.dumps(output, ensure_ascii=False)
 
     return validator
 

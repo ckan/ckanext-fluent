@@ -1,5 +1,4 @@
 from setuptools import setup, find_packages
-import sys, os
 
 version = '1.0.0'
 
@@ -9,7 +8,7 @@ setup(
     description="Multilingual fields for CKAN",
     long_description="""
     """,
-    classifiers=[], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
+    classifiers=[],  # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
     keywords='',
     author='Government of Canada',
     author_email='ian@excess.org',
@@ -22,8 +21,7 @@ setup(
     install_requires=[
         # -*- Extra requirements: -*-
     ],
-    entry_points=\
-    """
+    entry_points="""
     [ckan.plugins]
     fluent=ckanext.fluent.plugins:FluentPlugin
     """,

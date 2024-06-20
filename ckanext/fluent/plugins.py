@@ -4,7 +4,6 @@ from ckan.plugins.toolkit import add_template_directory, h
 from ckanext.fluent import validators, helpers
 
 
-
 class FluentPlugin(p.SingletonPlugin):
     p.implements(p.IValidators)
     p.implements(p.IConfigurer)

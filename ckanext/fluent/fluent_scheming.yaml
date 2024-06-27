@@ -1,0 +1,86 @@
+scheming_version: 1
+dataset_type: fluent-test
+about_url: http://github.com/open-data/ckanext-fluent
+form_languages: [en, fr]
+dataset_fields:
+  - field_name: title_translated
+    label:
+      en: Title
+      fr: Titre
+    fluent_form_label:
+      en:
+        en: Title (English)
+        fr: Titre (anglais)
+      fr:
+        en: Title (French)
+        fr: Titre (français)
+    fluent_help_text:
+      en:
+        en: The English name by which the dataset is known
+        fr: Nom anglais désignant le jeu de données
+      fr:
+        en: The French name by which the dataset is known
+        fr: Nom français désignant le jeu de données
+    preset: fluent_core_translated
+    required: true
+
+  - field_name: name
+    label: URL
+    preset: dataset_slug
+
+  - field_name: owner_org
+    label: Organization
+    preset: dataset_organization
+
+  - field_name: notes_translated
+    label:
+      en: Description
+      fr: Description
+    fluent_form_label:
+      en:
+        en: Description (English)
+        fr: Description (anglais)
+      fr:
+        en: Description (French)
+        fr: Description (français)
+    fluent_help_text:
+      en:
+        en: "An account of the dataset, in English. A description may include but is not limited to: an abstract, a table of contents, or a free-text account of the resource."
+        fr: Description du jeu de données, en anglais. La description peut comprendre un résumé, une table des matières ou un texte libre.
+      fr:
+        en: "An account of the dataset, in French. A description may include but is not limited to: an abstract, a table of contents, or a free-text account of the resource."
+        fr: Description du jeu de données, en anglais. La description peut comprendre un résumé, une table des matières ou un texte libre.
+
+    preset: fluent_core_translated
+
+  - field_name: keywords
+    label:
+      en: Keywords
+      fr: Mots-clés
+    preset: fluent_tags
+    required: true
+
+resource_fields:
+  - field_name: url
+    label: URL
+    preset: resource_url_upload
+
+  - field_name: name_translated
+    label:
+      en: Title
+      fr: Titre
+    fluent_form_label:
+      en:
+        en: Title (English)
+        fr: Titre (anglais)
+      fr:
+        en: Title (French)
+        fr: Titre (français)
+    fluent_help_text:
+      en:
+        en: An English name given to the resource.
+        fr: Nom anglais attribué à la ressource
+      fr:
+        en: A French name given to the resource.
+        fr: Nom français attribué à la ressource
+    preset: fluent_core_translated

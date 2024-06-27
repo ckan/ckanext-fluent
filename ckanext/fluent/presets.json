@@ -32,8 +32,8 @@
         "validators": "fluent_tags",
         "output_validators": "fluent_tags_output",
         "form_attrs": {
-          "data-module": "autocomplete",
-          "data-module-tags": ""
+          "style": "width: 100%",
+          "class": "form-control"
         }
       }
     },

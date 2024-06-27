@@ -25,7 +25,7 @@ The easiest way to use fluent multilingual text fields is with
 Add `ckanext.fluent:presets.json` to your scheming.presets
 configuration settings:
 
-```json
+```ini
 scheming.presets = ckanext.scheming:presets.json
                    ckanext.fluent:presets.json
 ```

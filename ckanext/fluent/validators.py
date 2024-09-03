@@ -23,7 +23,7 @@ tag_name_validator = get_validator('tag_name_validator')
 
 @scheming_validator
 def fluent_core_translated_output(field, schema):
-    assert field['field_name'].endswith(LANG_SUFFIX), 'Output validator "fluent_core_translated" must only used on a field that ends with "_translated"'
+    assert field['field_name'].endswith(LANG_SUFFIX), 'Output validator "fluent_core_translated" must only be used on a field that ends with "_translated"'
 
     def validator(key, data, errors, context):
         """
@@ -101,7 +101,7 @@ def fluent_text(field, schema):
                     m = re.match(BCP_47_LANGUAGE, lang)
                 except TypeError:
                     errors[key].append(_('invalid type for language code: %r')
-                        % lang)
+                                       % lang)
                     continue
                 if not m:
                     errors[key].append(_('invalid language code: "%s"') % lang)
@@ -114,8 +114,8 @@ def fluent_text(field, schema):
                         value[lang] = text if six.PY3 else text.decode(
                             'utf-8')
                     except UnicodeDecodeError:
-                        errors[key]. append(_('invalid encoding for "%s" value')
-                            % lang)
+                        errors[key].append(_('invalid encoding for "%s" value')
+                                           % lang)
 
             for lang in required_langs:
                 if value.get(lang) or any(
@@ -155,9 +155,13 @@ def fluent_text(field, schema):
         if output is None:
             return
 
-        for lang in output:
-            del extras[prefix + lang]
-        data[key] = json.dumps(output, ensure_ascii=False)
+        # Return None if alle values in json are None or "" (state = deleted in package_extra)
+        if all(v is None or v == "" for v in output.values()):
+            data[key] = None
+        else:
+            for lang in output:
+                del extras[prefix + lang]
+                data[key] = json.dumps(output, ensure_ascii=False)
 
     return validator
 
@@ -247,7 +251,7 @@ def fluent_tags(field, schema):
                             out.append(v if six.PY3 else v.decode(
                                 'utf-8'))
                         except UnicodeDecodeError:
-                            errors[key]. append(_(
+                            errors[key].append(_(
                                 'expected UTF-8 encoding for '
                                 '"{lang}" value item {num}').format(
                                     lang=lang, num=i))

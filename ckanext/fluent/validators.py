@@ -23,8 +23,7 @@ tag_name_validator = get_validator('tag_name_validator')
 
 @scheming_validator
 def fluent_core_translated_output(field, schema):
-    assert field['field_name'].endswith(LANG_SUFFIX) or field[
-        'field_name'] == 'qual_ass', 'Output validator "fluent_core_translated" must only be used on a field that ends with "_translated" or has the name "qual_ass".'
+    assert field['field_name'].endswith(LANG_SUFFIX), 'Output validator "fluent_core_translated" must only be used on a field that ends with "_translated"'
 
     def validator(key, data, errors, context):
         """

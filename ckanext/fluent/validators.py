@@ -2,8 +2,7 @@ import json
 import re
 import six
 
-from ckan.plugins.toolkit import missing, get_validator, Invalid
-from ckantoolkit import config, _
+from ckan.plugins.toolkit import missing, get_validator, Invalid, config, _
 
 from ckanext.fluent.helpers import (
     fluent_form_languages, fluent_alternate_languages)

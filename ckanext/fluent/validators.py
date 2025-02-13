@@ -6,7 +6,11 @@ from ckan.plugins.toolkit import missing, get_validator, Invalid, config, _
 
 from ckanext.fluent.helpers import (
     fluent_form_languages, fluent_alternate_languages)
-from ckanext.scheming.helpers import scheming_language_text
+from ckanext.scheming.helpers import (
+    scheming_language_text,
+    scheming_get_field_page_number,
+    scheming_get_current_page_number
+)
 from ckanext.scheming.validation import (
     scheming_validator, validators_from_string)
 
@@ -18,6 +22,7 @@ LANG_SUFFIX = '_translated'
 
 tag_length_validator = get_validator('tag_length_validator')
 tag_name_validator = get_validator('tag_name_validator')
+ignore_missing = get_validator('ignore_missing')
 
 
 @scheming_validator
@@ -97,18 +102,26 @@ def fluent_text(field, schema):
             if output is not None:
                 output[lang] = text
 
-        for lang in required_langs:
-            if extras.get(prefix + lang) or any(
-                    extras.get(prefix + l) for l in alternate_langs.get(lang, [])):
-                continue
-            errors[key[:-1] + (key[-1] + '-' + lang,)] = [_('Missing value')]
-            output = None
+        if output:
+            field_page_number = scheming_get_field_page_number(
+                schema.get('dataset_type'), key[0])
+            current_page_number = scheming_get_current_page_number(context)
+            if field_page_number and current_page_number and \
+                    field_page_number != current_page_number:
+                ignore_missing(key, data, errors, context)
+                return
+            for lang in required_langs:
+                if extras.get(prefix + lang) or any(
+                        extras.get(prefix + l) for l in alternate_langs.get(lang, [])):
+                    continue
+                errors[key[:-1] + (key[-1] + '-' + lang,)] = [_('Missing value')]
+                output = None
 
-        if output is not None:
-            for lang in output:
-                del extras[prefix + lang]
-            data[key] = json.dumps(output, ensure_ascii=False)
-            return
+            if output is not None:
+                for lang in output:
+                    del extras[prefix + lang]
+                data[key] = json.dumps(output, ensure_ascii=False)
+                return
 
         value = data[key]
         # 2 or 3. dict or JSON encoded string
@@ -156,6 +169,9 @@ def fluent_text(field, schema):
             if not errors[key]:
                 data[key] = json.dumps(value, ensure_ascii=False)
             return
+
+        if field and field.get('required') and (not value or value is missing):
+            errors[key].append(_('Missing value'))
 
     return validator
 
@@ -250,18 +266,27 @@ def fluent_tags(field, schema):
                 if errs:
                     errors[key[:-1] + (name,)] = errs
 
-        for lang in required_langs:
-            if extras.get(prefix + lang) or any(
-                    extras.get(prefix + l) for l in alternate_langs.get(lang, [])):
-                continue
-            errors[key[:-1] + (key[-1] + '-' + lang,)] = [_('Missing value')]
-            output = None
+        if output:
+            field_page_number = scheming_get_field_page_number(
+                schema.get('dataset_type'), key[0])
+            current_page_number = scheming_get_current_page_number(
+                schema.get('dataset_type'), context)
+            if field_page_number and field_page_number != current_page_number:
+                # ignore_missing if the field is not on the current page
+                ignore_missing(key, data, errors, context)
+                return
+            for lang in required_langs:
+                if extras.get(prefix + lang) or any(
+                        extras.get(prefix + l) for l in alternate_langs.get(lang, [])):
+                    continue
+                errors[key[:-1] + (key[-1] + '-' + lang,)] = [_('Missing value')]
+                output = None
 
-        if output is not None:
-            for lang in output:
-                del extras[prefix + lang]
-            data[key] = json.dumps(output)
-            return
+            if output is not None:
+                for lang in output:
+                    del extras[prefix + lang]
+                data[key] = json.dumps(output)
+                return
 
         value = data[key]
         # 2. dict of lists of tag strings
@@ -322,6 +347,9 @@ def fluent_tags(field, schema):
             if not errors[key]:
                 data[key] = json.dumps(value)
             return
+
+        if field and field.get('required') and (not value or value is missing):
+            errors[key].append(_('Missing value'))
 
     return validator
 

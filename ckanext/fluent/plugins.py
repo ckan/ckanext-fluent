@@ -20,6 +20,8 @@ class FluentPlugin(p.SingletonPlugin):
         template_helpers = {
             'fluent_form_languages': helpers.fluent_form_languages,
             'fluent_form_label': helpers.fluent_form_label,
+            'scheming_missing_required_fields':
+                helpers.scheming_missing_required_fields,
         }
         if 'truncate' not in h:
             from ckan.lib.helpers import truncate

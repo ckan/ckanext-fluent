@@ -10,7 +10,7 @@
         or data.get(field.field_name, {})[lang],
     error=errors[field.field_name + '-' + lang],
     classes=['control-medium'],
-    attrs=field.form_attrs if 'form_attrs' in field else {},
+    attrs=dict({"class": "form-control"}, **(field.get('form_attrs', {}))),
     is_required=h.scheming_field_required(field)
     ) %}
     {%- snippet 'scheming/form_snippets/fluent_help_text.html',

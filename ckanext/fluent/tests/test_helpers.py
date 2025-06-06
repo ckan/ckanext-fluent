@@ -36,8 +36,8 @@ class TestFluentHelpers(object):
         assert res == {'en': ['en-GB']}
 
     def test_fluent_form_label_exists(self):
-        
         field = {
+            'field_name': 'fname',
             'fluent_form_label': {
                 'en': 'English label',
                 'fr': 'French label'
@@ -48,8 +48,8 @@ class TestFluentHelpers(object):
         assert res == 'English label'
 
     def test_fluent_form_label_not_exists(self):
-        
         field = {
+            'field_name': 'fname',
             'fluent_form_label': {
                 'en': 'English label',
                 'fr': 'French label'

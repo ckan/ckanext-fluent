@@ -12,14 +12,12 @@ jobs:
         run: pip install flake8 pycodestyle
       - name: Check syntax
         run: flake8 . --count --select=E901,E999,F821,F822,F823 --show-source --statistics --exclude ckan
-      # - name: Run flake8
-      #   run: flake8 . --count --max-line-length=127 --statistics --exclude ckan
 
   test:
     needs: lint
     strategy:
       matrix:
-        ckan-version: ["2.11", "2.10", 2.9]
+        ckan-version: ["2.11", "2.10"]
       fail-fast: false
 
     name: CKAN ${{ matrix.ckan-version }}

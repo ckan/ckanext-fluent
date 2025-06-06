@@ -89,6 +89,7 @@ def scheming_missing_required_fields(
                 or f['field_name'] in page_missing
                 or 'validators' not in f
                 or not any(v.startswith('fluent_') for v in f['validators'].split())
+                or not f.get('required')
             ):
                 continue
             required_langs = fluent_form_languages(f, schema=schema)

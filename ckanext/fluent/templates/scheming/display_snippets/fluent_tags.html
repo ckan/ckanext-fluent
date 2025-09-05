@@ -8,7 +8,7 @@
       <li>
         <a class="{% block tag_list_item_class %}tag{% endblock %}" href="{%
           url_for controller='dataset', action='search', tags=tag %}">{{
-            h.truncate(tag, 22) }}</a>
+            tag }}</a>
       </li>
     {% endfor %}
   </ul>

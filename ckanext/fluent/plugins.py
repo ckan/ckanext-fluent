@@ -23,9 +23,6 @@ class FluentPlugin(p.SingletonPlugin):
             'scheming_missing_required_fields':
                 helpers.scheming_missing_required_fields,
         }
-        if 'truncate' not in h:
-            from ckan.lib.helpers import truncate
-            template_helpers['truncate'] = truncate
         return template_helpers
 
     def get_validators(self):

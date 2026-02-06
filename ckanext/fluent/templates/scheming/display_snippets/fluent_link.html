@@ -1,5 +1,5 @@
 {{ h.link_to(h.scheming_language_text(data[field.field_name]),
     url=h.scheming_language_text(data[field.field_name]),
-    rel=field.display_property,
+    rel=field.display_property ~ ' noopener noreferrer',
     target='_blank',
     **field.get('display_attributes', {}) )}}

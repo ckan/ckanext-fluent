@@ -81,7 +81,8 @@ def fluent_text(field, schema):
 
         enforce_required = True
         if not schema.get('draft_fields_required', True):
-            if data.get(('state',), '').startswith('draft'):
+            state = data.get(('state',), missing)
+            if state is missing or state.startswith('draft'):
                 enforce_required = False
 
         value = data[key]
@@ -224,7 +225,8 @@ def fluent_tags(field, schema):
 
         enforce_required = True
         if not schema.get('draft_fields_required', True):
-            if data.get(('state',), '').startswith('draft'):
+            state = data.get(('state',), missing)
+            if state is missing or state.startswith('draft'):
                 enforce_required = False
 
         value = data[key]

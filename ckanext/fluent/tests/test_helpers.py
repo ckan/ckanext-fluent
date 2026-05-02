@@ -1,3 +1,5 @@
+import pytest
+
 from ckanext.fluent.helpers import (
     fluent_form_languages,
     fluent_alternate_languages,
@@ -35,6 +37,7 @@ class TestFluentHelpers(object):
         res = fluent_alternate_languages(schema=schema)
         assert res == {'en': ['en-GB']}
 
+    @pytest.mark.usefixtures("with_plugins")
     def test_fluent_form_label_exists(self):
         field = {
             'field_name': 'fname',
@@ -47,6 +50,7 @@ class TestFluentHelpers(object):
         res = fluent_form_label(field, lang)
         assert res == 'English label'
 
+    @pytest.mark.usefixtures("with_plugins")
     def test_fluent_form_label_not_exists(self):
         field = {
             'field_name': 'fname',

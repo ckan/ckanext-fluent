@@ -40,7 +40,7 @@ def test_text():
         ('field',): '{"en": "hello", "fr": "bonjour"}',
     }
 
-def test_text_missing_required():
+def test_text_one_missing_required():
     txt = fluent_text(
         {'required': True},
         {'form_languages': ['en', 'fr']}
@@ -71,6 +71,60 @@ def test_text_missing_required():
         ('__extras',): {'field-fr': 'bonjour'},
         ('field',): missing,
     }
+
+def test_text_one_missing_not_required():
+    txt = fluent_text(
+        {},
+        {'form_languages': ['en', 'fr']}
+    )
+
+    data = {('field',): {'en': 'hello'}}
+    errors = {('field',): []}
+
+    txt(('field',), data, errors, {})
+    assert errors == {('field',): []}
+    assert data == {('field',): '{"en": "hello"}'}
+
+    # accept JSON-encoded input too
+    txt(('field',), data, errors, {})
+    assert errors == {('field',): []}
+    assert data == {('field',): '{"en": "hello"}'}
+
+    data = {
+        ('__extras',): {'field-fr': 'bonjour'},
+        ('field',): missing,
+    }
+    errors = {('field',): []}
+    txt(('field',), data, errors, {})
+    assert errors == {('field',): []}
+    assert data == {
+        ('__extras',): {},
+        ('field',): '{"fr": "bonjour"}',
+    }
+
+def test_text_all_missing():
+    txt = fluent_text(
+        {},
+        {'form_languages': ['en', 'fr']}
+    )
+
+    data = {('field',): missing}
+    errors = {('field',): []}
+
+    txt(('field',), data, errors, {})
+    assert errors == {('field',): []}
+    assert data == {('field',): '{}'}
+
+    # accept JSON-encoded {} input
+    txt(('field',), data, errors, {})
+    assert errors == {('field',): []}
+    assert data == {('field',): '{}'}
+
+    # actual {} input too
+    data = {('field',): {}}
+    txt(('field',), data, errors, {})
+    assert errors == {('field',): []}
+    assert data == {('field',): '{}'}
 
 def test_core_translated_output():
     fcto = fluent_core_translated_output(

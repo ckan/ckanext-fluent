@@ -12,7 +12,7 @@ from ckanext.scheming.validation import (
 
 
 # loose definition of BCP47-like strings
-BCP_47_LANGUAGE = u'^[a-z]{2,8}(-[0-9a-zA-Z]{1,8})*$'
+BCP_47_LANGUAGE = u'^[a-z]{2,8}((?:_|-)[0-9a-zA-Z]{1,8})*$'
 
 LANG_SUFFIX = '_translated'
 

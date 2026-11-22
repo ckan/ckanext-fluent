@@ -130,3 +130,6 @@ preset. By doing so, the translated version of the field is stored in the field 
   }
 }
 ```
+
+For `title_translated`, add `"form_snippet": "fluent_title.html"` so the title box of the first form language
+fills in the dataset URL, as CKAN's own title box does.

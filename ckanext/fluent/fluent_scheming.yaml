@@ -22,6 +22,7 @@ dataset_fields:
         en: The French name by which the dataset is known
         fr: Nom français désignant le jeu de données
     preset: fluent_core_translated
+    form_snippet: fluent_title.html
     required: true
 
   - field_name: name
